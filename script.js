@@ -12,8 +12,9 @@ function divide(a, b){
 }
 
 let firstNum = "";
-let operator = "";
+let operator;
 let secNum = "";
+let aux = "";
 
 function operate(firstNum, operator, secNum){
     if (operator === "+"){
@@ -28,46 +29,44 @@ function operate(firstNum, operator, secNum){
     if (operator === "/"){
         return divide(firstNum, secNum);
     }
+
 }
 
 const display = document.querySelector(".disp");
 const numButtons = document.querySelectorAll(".nums");
 const opButtons = document.querySelectorAll(".ops")
-
-if (operator == undefined){
-    numButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            firstNum += button.textContent;
-            console.log("firstNum:" + firstNum);
-        })
-    })
-}
+const equal = document.querySelector(".equal");
+const clear = document.querySelector(".clear");
 
 
-if (operator != undefined){
-    numButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            secNum += button.textContent;
-            console.log("secNum:" + secNum);
-        })
-    })
+numButtons.forEach(button => {
+    button.addEventListener("click", () => addToVal(button.textContent))
+})
+
+function addToVal(val){
+    aux += val;
+    display.textContent = aux;
 }
 
 opButtons.forEach(button => {
     button.addEventListener("click", () => {
+
+        if (operator){
+        firstNum = operate(firstNum, operator, secNum);
+        aux = "";
         operator = button.textContent;
-        console.log(operator);
-        console.log(operator == undefined);
+    }
+
+        firstNum = aux;
+        aux = "";
+        operator = button.textContent;
     })
+    
+    
 })
 
-
-
-
-
-
-
-
-
-
-console.log(operate(5, "*", 6));
+equal.addEventListener("click", () => {
+    secNum = aux;
+    aux = "";
+    display.textContent = operate(firstNum, operator, secNum);
+})
