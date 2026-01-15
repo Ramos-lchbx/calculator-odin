@@ -14,7 +14,13 @@ function multiply(a, b){
     return rounded;
 }
 function divide(a, b){
-    if ( b === "0" ) {return "not allowed"}
+    if ( b === "0" ) {
+        firstNum = "";
+        operator = undefined;
+        secNum = "";
+        aux = "";
+        return "NUH-UH"
+    }
     else {
         let result = +a / +b;
         let rounded = Math.round(result * 100000) / 100000;
@@ -27,6 +33,7 @@ let operator;
 let secNum = "";
 let aux = "";
 let isResult = false;
+let isDecimal = false;
 
 function operate(firstNum, operator, secNum){
     if (operator === "+"){
@@ -46,9 +53,47 @@ function operate(firstNum, operator, secNum){
 
 const display = document.querySelector(".disp");
 const numButtons = document.querySelectorAll(".nums");
-const opButtons = document.querySelectorAll(".ops")
+const opButtons = document.querySelectorAll(".ops");
 const equal = document.querySelector(".equal");
 const clear = document.querySelector(".clear");
+const point = document.querySelector(".point");
+const del = document.querySelector(".del");
+let operatorArr = [ "/", "*", "-", "+" ]
+
+document.addEventListener("keypress", (key) => {
+    console.log(key.key)
+    if (+key.key >= 0 && +key.key <= 9){
+    addToVal(key.key);
+    }
+    if (operatorArr.includes(key.key)){
+        operating(key.key);
+    }
+    if (key.key === "="){
+        
+    }
+})
+
+del.addEventListener("click", () => {
+    display.textContent = display.textContent.substring(0, display.textContent.length - 1);
+    aux = aux.substring(0, aux.length - 1);
+})
+
+point.addEventListener("click", () => {
+    console.log("point!")
+    isDecimal = true
+    point.disabled = true;
+
+    if (isResult === true && !operator) {
+        console.log("isResult true!")
+        clearEverything();
+        point.disabled = true;
+        isResult = false;
+    }
+
+    aux += point.textContent;
+    display.textContent = aux;
+
+});
 
 numButtons.forEach(button => {
     button.addEventListener("click", () => addToVal(button.textContent))
@@ -65,28 +110,33 @@ function addToVal(val){
 }
 
 opButtons.forEach(button => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", () => operating(button.textContent)) 
+})
 
-        if (operator){
+function operating(op){
+    if (operator){
         secNum = aux;
         aux = "";
         firstNum = operate(firstNum, operator, secNum);
         secNum = "";
         display.textContent = firstNum;
-        operator = button.textContent; 
+        if (display.textContent === "NUH-UH") {firstNum = 0
+            console.log("HEYYYY")
+        }
+        operator = op; 
         console.log(firstNum, operator, secNum);
+
+        point.disabled = false;
     }
         else {
         firstNum = aux;
         aux = "";
-        operator = button.textContent;
+        operator = op;
         console.log(`operator is ${operator}`);
-    }
 
-    })
-    
-    
-})
+        point.disabled = false;
+    }
+}
 
 equal.addEventListener("click", () => {
     if ( !operator ) {
@@ -101,16 +151,18 @@ equal.addEventListener("click", () => {
         operator = undefined;
 
         isResult = true;
+        point.disabled = false;
     }
     else {
         console.log("Normal values");
         secNum = aux;
         aux = "";
         display.textContent = operate(firstNum, operator, secNum);
-        aux = display.textContent;
+        if (operator != "/" && secNum != 0) {aux = display.textContent}
         operator = undefined;
 
         isResult = true;
+        point.disabled = false;
     }
 
 })
@@ -123,4 +175,5 @@ function clearEverything(){
     secNum = "";
     aux = "";
     display.textContent = "";
+    point.disabled = false;
 }
