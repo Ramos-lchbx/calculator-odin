@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&display=swap');
+
+h1{
+    color: rgb(49, 126, 161);
+    font-size: 40px;
+}
+
+.numbers{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 165px;
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+body{
+    text-align: center;
+    font-family: 'Tektur', sans-serif;
+    background-color: rgb(52, 53, 56);
+}
+
+.calc{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+button{
+    border-radius: 20px;
+    min-height: 50px;
+    min-width: 50px;
+    font-family: 'Tektur', sans-serif;
+    background-color: rgb(33, 87, 112);
+    color: rgb(124, 203, 240);
+    border: 5px;
+    font-size: 20px;
+}
+
+button:hover{
+    background-color: rgb(55, 121, 151);
+    transition: 0.3s;
+}
+
+button:active{
+    background-color: rgb(19, 49, 63);
+}
+
+button:disabled{
+    background-color: rgb(111, 124, 129);
+}
+
+.bottom{
+    display: flex;
+    gap: 5px;
+}
+
+.operators{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.top{
+    display: flex;
+    justify-content: space-between;
+    width: 220px;
+    gap: 5px;
+
+}
+
+.disp{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    width: 220px;
+    height: 50px;
+    align-items: center;
+    background-color: rgb(26, 27, 27);
+    border-radius: 10px;
+    color: rgb(212, 221, 221);
+    font-size: 20px;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+#deleters{
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    margin: 5px;
+}
+
+.divide{
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px 0 5px 0;
+}
