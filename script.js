@@ -60,7 +60,7 @@ const point = document.querySelector(".point");
 const del = document.querySelector(".del");
 let operatorArr = [ "/", "*", "-", "+" ]
 
-document.addEventListener("keypress", (key) => {
+document.addEventListener("keydown", (key) => {
     console.log(key.key)
     if (+key.key >= 0 && +key.key <= 9){
     addToVal(key.key);
@@ -68,17 +68,35 @@ document.addEventListener("keypress", (key) => {
     if (operatorArr.includes(key.key)){
         operating(key.key);
     }
-    if (key.key === "="){
-        
+    if (key.key === "Enter"){
+        equalChecks();
     }
+    if (key.key === "." && point.disabled === false){
+        pointChecks();
+    }
+    if (key.key === "c"){
+        clearEverything();
+    }
+    if (key.key === "Backspace"){
+        delChecks();
+    } 
 })
 
-del.addEventListener("click", () => {
-    display.textContent = display.textContent.substring(0, display.textContent.length - 1);
+del.addEventListener("click", () => delChecks() )
+
+function delChecks(){
+    display.textContent = display.textContent.substring(0, display.textContent.length - 1)
+    if (aux.slice(-1) === "."){
+        point.disabled = false
+        console.log("point deleted")
+    }
     aux = aux.substring(0, aux.length - 1);
-})
 
-point.addEventListener("click", () => {
+}
+
+point.addEventListener("click", () => pointChecks());
+
+function pointChecks(){
     console.log("point!")
     isDecimal = true
     point.disabled = true;
@@ -93,7 +111,7 @@ point.addEventListener("click", () => {
     aux += point.textContent;
     display.textContent = aux;
 
-});
+}
 
 numButtons.forEach(button => {
     button.addEventListener("click", () => addToVal(button.textContent))
@@ -138,7 +156,9 @@ function operating(op){
     }
 }
 
-equal.addEventListener("click", () => {
+equal.addEventListener("click", () => equalChecks() )
+
+function equalChecks(){
     if ( !operator ) {
         console.log("operator not defined");
         return;
@@ -158,14 +178,17 @@ equal.addEventListener("click", () => {
         secNum = aux;
         aux = "";
         display.textContent = operate(firstNum, operator, secNum);
-        if (operator != "/" && secNum != 0) {aux = display.textContent}
+        if (display.textContent != "NUH-UH") {
+            aux = display.textContent
+            console.log(`secNum is ${secNum}`)
+        }
         operator = undefined;
 
         isResult = true;
         point.disabled = false;
     }
 
-})
+}
 
 clear.addEventListener("click", () => clearEverything())
 
